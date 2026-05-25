@@ -76,9 +76,9 @@ Create `GET /api/pages/home` that returns a hardcoded payload:
 
 **Exercise:**
 
-- [ ] Write the Zod schema (3 components + 2 actions)
-- [ ] Create the Fastify endpoint returning valid JSON
-- [ ] Validate your own endpoint response against the schema (write a quick test script)
+- [x] Write the Zod schema (3 components + 2 actions)
+- [x] Create the Fastify endpoint returning valid JSON
+- [x] Validate your own endpoint response against the schema (write a quick test script)
 
 ---
 
@@ -118,7 +118,7 @@ Top-level component that:
 ### 2.4 Fetch + Render in Next.js
 
 In `app/page.tsx`:
-1. Fetch from `http://localhost:3002/api/pages/home`
+1. Fetch from `http://localhost:3001/api/pages/home`
 2. Validate with Zod `.parse()`
 3. Pass to `<SDUIRenderer />`
 
@@ -126,9 +126,9 @@ In `app/page.tsx`:
 
 **Exercise:**
 
-- [ ] Build ComponentMapper + 3 components
-- [ ] Fetch and render the home page payload
-- [ ] Change the Fastify payload → see UI update without touching frontend code
+- [x] Build ComponentMapper + 3 components
+- [x] Fetch and render the home page payload
+- [x] Change the Fastify payload → see UI update without touching frontend code
 
 ---
 
@@ -162,9 +162,9 @@ Pass `resolveAction` down through ComponentMapper (via props or context). Button
 **Exercise:**
 
 - [ ] Create `useActionResolver` hook
-- [ ] Wire navigate action to a button
+- [x] Wire navigate action to a button
 - [ ] Add a second Fastify page (`/api/pages/about`) and navigate between them
-- [ ] Add a button with `api_call` action, verify it hits Fastify
+- [x] Add a button with `api_call` action, verify it hits Fastify
 
 ---
 

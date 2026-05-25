@@ -9,4 +9,4 @@ npm install
 node index.js
 ```
 
-Runs on http://localhost:3002
+Runs on http://localhost:3001
