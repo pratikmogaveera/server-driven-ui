@@ -161,10 +161,15 @@ Pass `resolveAction` down through ComponentMapper (via props or context). Button
 
 **Exercise:**
 
-- [ ] Create `useActionResolver` hook
+- [x] Create `useActionResolver` hook
 - [x] Wire navigate action to a button
-- [ ] Add a second Fastify page (`/api/pages/about`) and navigate between them
+- [x] Add a second Fastify page (`/api/pages/about`) and navigate between them
 - [x] Add a button with `api_call` action, verify it hits Fastify
+
+**Known issues to fix in Phase 5:**
+- `useActionResolver` is called in every recursive `ComponentMapper` instance — pass `resolver` as a prop instead
+- `api_call` fires and forgets — no response handling, no error feedback
+- `key={i}` (index as key) in children map — fragile if list order changes; add stable `id` field to components
 
 ---
 
@@ -202,6 +207,7 @@ Create `POST /api/actions` that receives form data, validates it, and returns a 
 - [ ] Build a form page (Fastify returns inputs + submit button)
 - [ ] Submit form → hits `/api/actions` → returns success
 - [ ] Display success/error state
+- [ ] Handle `api_call` response in `useActionResolver` — show success/error, re-fetch page after mutation
 
 ---
 
@@ -241,10 +247,12 @@ Show a skeleton or spinner while fetching. Server could even define its own load
 
 **Exercise:**
 
-- [ ] Dynamic route rendering any page from server
+- [x] Dynamic route rendering any page from server
 - [ ] 3 pages working end-to-end
-- [ ] Error boundary + fallback for each failure mode
-- [ ] Loading state while fetching
+- [ ] Error boundary + fallback for each failure mode (Fastify down, invalid payload, network timeout)
+- [ ] Loading skeleton instead of plain "Loading..." text
+- [ ] Zod parse errors surfaced with detail in error state (not swallowed into generic message)
+- [ ] Pass `resolver` as prop through `ComponentMapper` instead of calling hook on every recursive instance
 
 ---
 
@@ -260,6 +268,7 @@ Show a skeleton or spinner while fetching. Server could even define its own load
 4. **Refresh** — After an action, re-fetch the page to get updated UI
 5. **Transitions** — Add simple animations between page navigations
 6. **DevTools** — Build a debug panel showing the raw JSON payload
+7. **Link component** — Add `{ type: "link", label, href }` to schema; renders as `<Link>` instead of `<button>` for navigation. Buttons should trigger actions, links should navigate — server declares intent explicitly.
 
 ### Testing (Manual is fine)
 
@@ -335,12 +344,12 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 ## Checkpoint: End of Week 4
 
 - [ ] Zod schema with 5+ component types + 2 action types
-- [ ] ComponentMapper rendering all types recursively
-- [ ] useActionResolver handling navigate + api_call
+- [x] ComponentMapper rendering all types recursively
+- [x] useActionResolver handling navigate + api_call
 - [ ] 3+ pages served from Fastify
 - [ ] Form submission working end-to-end
 - [ ] Error handling for all failure modes
-- [ ] Dynamic routing (`/[pageId]`)
+- [x] Dynamic routing (`/[pageId]`)
 - [ ] Can change UI by only editing Fastify — no frontend deploys needed
 
 ---

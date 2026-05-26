@@ -27,18 +27,30 @@ npm run dev
 # Runs on http://localhost:3000
 ```
 
-## Checkpoint (2026-05-25)
+### Environment Variables
+
+Create `sdui-web/.env` with:
+
+```
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3001/
+```
+
+| Variable | Description |
+|----------|-------------|
+| `NEXT_PUBLIC_API_BASE_URL` | Base URL for the Fastify API (include trailing slash) |
+
+## Checkpoint (2026-05-26)
 
 - Zod schema defined in both `sdui-web/lib/main.schema.ts` and `sdui-api/schema.js`
 - API validates responses against `PageSchema` before sending (returns 500 on mismatch)
 - Response shape: `{ id, title, root: { type: 'container', children: [...] } }`
 - Components implemented: `text`, `button`, `container`
-- Actions implemented: `navigate` (via Next.js Link), `api_call` (via axios)
-- Frontend fetches from API as a client component with `useEffect`
-- Error handling: loading state, error state with message display
+- Actions implemented: `navigate`, `api_call` — both handled via `useActionResolver` hook
+- Dynamic routing via `app/[slug]/page.tsx` — any server-defined page is renderable
+- Root `/` redirects to `/home`
+- `axiosInstance` centralises base URL config
 - `ComponentMapper` renders recursively from server payload
 
 **Next session:**
-- Extract action handling from `ComponentMapper` into a `useActionResolver` hook
-- Add `/api/pages/about` endpoint in Fastify
-- Create `app/[pageId]/page.tsx` for dynamic routing
+- Fix `router.push` in `app/page.tsx` → use `redirect()` instead
+- Phase 4: add `input`, `card` components + form pattern

@@ -62,6 +62,31 @@ fastify.get('/home', function (request, reply) {
   reply.send(result.data)
 })
 
+fastify.get('/about', function (request, reply) {
+  const payload = {
+    id: 'about',
+    title: 'About',
+    root: {
+      type: 'container',
+      children: [
+        {
+          type: 'text',
+          content: 'Welcome to About page!',
+          className: 'font-bold'
+        },
+      ],
+    },
+  }
+
+  const result = PageSchema.safeParse(payload)
+  if (!result.success) {
+    reply.code(500).send({ error: 'Invalid page schema', details: result.error.issues })
+    return
+  }
+
+  reply.send(result.data)
+})
+
 fastify.listen({ port: 3001 }, function (err, address) {
   if (err) {
     fastify.log.error(err)
