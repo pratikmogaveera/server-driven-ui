@@ -1,6 +1,6 @@
-import { PageSchema } from './schema.js';
+import { PageSchema, type Page } from './schema.js';
 import cors from '@fastify/cors';
-import Fastify from 'fastify'
+import Fastify from 'fastify';
 
 const envToLogger = {
   development: {
@@ -14,19 +14,19 @@ const envToLogger = {
   },
   production: true,
   test: false,
-}
+};
 
 const fastify = Fastify({
-  logger: envToLogger['development'] ?? true // defaults to true if no entry matches in the map
-})
+  logger: envToLogger['development'] ?? true, // defaults to true if no entry matches in the map
+});
 
 fastify.register(cors, {
-  origin: ['http://localhost:3000']
-})
+  origin: ['http://localhost:3000'],
+});
 
 fastify.get('/', function (request, reply) {
-  reply.send({ hello: 'world' })
-})
+  reply.send({ hello: 'world' });
+});
 
 fastify.get('/home', function (request, reply) {
   const payload = {
@@ -51,19 +51,19 @@ fastify.get('/home', function (request, reply) {
         },
       ],
     },
-  }
+  };
 
-  const result = PageSchema.safeParse(payload)
+  const result = PageSchema.safeParse(payload);
   if (!result.success) {
-    reply.code(500).send({ error: 'Invalid page schema', details: result.error.issues })
-    return
+    reply.code(500).send({ error: 'Invalid page schema', details: result.error.issues });
+    return;
   }
 
-  reply.send(result.data)
-})
+  reply.send(result.data);
+});
 
 fastify.get('/about', function (request, reply) {
-  const payload = {
+  const payload: Page = {
     id: 'about',
     title: 'About',
     root: {
@@ -72,24 +72,30 @@ fastify.get('/about', function (request, reply) {
         {
           type: 'text',
           content: 'Welcome to About page!',
-          className: 'font-bold'
+          className: 'font-bold',
+        },
+        {
+          type: 'input',
+          inputType: 'text',
+          name: 'test-input',
+          placeholder: 'This is input textfield',
         },
       ],
     },
-  }
+  };
 
-  const result = PageSchema.safeParse(payload)
+  const result = PageSchema.safeParse(payload);
   if (!result.success) {
-    reply.code(500).send({ error: 'Invalid page schema', details: result.error.issues })
-    return
+    reply.code(500).send({ error: 'Invalid page schema', details: result.error.issues });
+    return;
   }
 
-  reply.send(result.data)
-})
+  reply.send(result.data);
+});
 
 fastify.listen({ port: 3001 }, function (err, address) {
   if (err) {
-    fastify.log.error(err)
-    process.exit(1)
+    fastify.log.error(err);
+    process.exit(1);
   }
-})
+});

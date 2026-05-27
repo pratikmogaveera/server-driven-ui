@@ -21,7 +21,10 @@ const ComponentMapper = ({ data }: { data: Component }) => {
         </button>
       );
     }
+
     if (data.type === 'text') return <p className={data.className}>{data.content}</p>;
+
+    if (data.type === 'input') return <input name={data.name} type={data.inputType} className={data.className} placeholder={data.placeholder} />;
   };
   return <div>{map(data)}</div>;
 };

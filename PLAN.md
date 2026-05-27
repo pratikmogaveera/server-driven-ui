@@ -208,6 +208,7 @@ Create `POST /api/actions` that receives form data, validates it, and returns a 
 - [ ] Submit form → hits `/api/actions` → returns success
 - [ ] Display success/error state
 - [ ] Handle `api_call` response in `useActionResolver` — show success/error, re-fetch page after mutation
+- [ ] Refactor `ComponentMapper` into individual component files (`components/sdui/components/TextComponent.tsx`, `ButtonComponent.tsx`, etc.)
 
 ---
 
