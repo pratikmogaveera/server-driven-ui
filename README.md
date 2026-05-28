@@ -14,7 +14,7 @@ A learning project exploring the Server-Driven UI pattern, where the server cont
 ```bash
 cd sdui-api
 npm install
-node index.js
+npm run dev
 # Runs on http://localhost:3001
 ```
 
@@ -39,18 +39,8 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:3001/
 |----------|-------------|
 | `NEXT_PUBLIC_API_BASE_URL` | Base URL for the Fastify API (include trailing slash) |
 
-## Checkpoint (2026-05-26)
+## Changelog
 
-- Zod schema defined in both `sdui-web/lib/main.schema.ts` and `sdui-api/schema.js`
-- API validates responses against `PageSchema` before sending (returns 500 on mismatch)
-- Response shape: `{ id, title, root: { type: 'container', children: [...] } }`
-- Components implemented: `text`, `button`, `container`
-- Actions implemented: `navigate`, `api_call` — both handled via `useActionResolver` hook
-- Dynamic routing via `app/[slug]/page.tsx` — any server-defined page is renderable
-- Root `/` redirects to `/home`
-- `axiosInstance` centralises base URL config
-- `ComponentMapper` renders recursively from server payload
-
-**Next session:**
-- Fix `router.push` in `app/page.tsx` → use `redirect()` instead
-- Phase 4: add `input`, `card` components + form pattern
+- **2026-05-28** — Added Prettier config, restructured README/PLAN roles, added steering rules for doc consistency.
+- **2026-05-27** — Migrated sdui-api to TypeScript. Added input component schema + basic rendering. Fixed redirect on `/`.
+- **2026-05-26** — Phase 3 complete. Dynamic routing, actions (navigate + api_call), recursive rendering all working. Starting Phase 4.

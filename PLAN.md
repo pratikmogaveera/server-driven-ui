@@ -203,7 +203,8 @@ Create `POST /api/actions` that receives form data, validates it, and returns a 
 
 **Exercise:**
 
-- [ ] Add `input` and `card` components
+- [x] Add `input` component (schema + basic rendering)
+- [ ] Add `card` component
 - [ ] Build a form page (Fastify returns inputs + submit button)
 - [ ] Submit form → hits `/api/actions` → returns success
 - [ ] Display success/error state
@@ -339,6 +340,26 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 3. **Start hardcoded, extract later.** Don't build a CMS. Hardcode JSON in Fastify.
 4. **One new thing per session.** Don't try to build everything at once.
 5. **Break things intentionally.** Send invalid payloads. See what happens. Fix it.
+
+---
+
+## Session Checkpoint (2026-05-28)
+
+- Zod schema defined in `sdui-web/lib/main.schema.ts` and `sdui-api/src/schema.ts`
+- API migrated to TypeScript (`sdui-api/src/`)
+- API validates responses against `PageSchema` before sending (returns 500 on mismatch)
+- Response shape: `{ id, title, root: { type: 'container', children: [...] } }`
+- Components implemented: `text`, `button`, `container`, `input`
+- Actions implemented: `navigate`, `api_call` — both handled via `useActionResolver` hook
+- Dynamic routing via `app/[slug]/page.tsx` — any server-defined page is renderable
+- Root `/` uses `redirect('/home')` (fixed from `router.push`)
+- `axiosInstance` centralises base URL config
+- `ComponentMapper` renders recursively from server payload
+- Added Prettier config + `.prettierignore`, formatted all files
+- Added steering rules (`.kiro/steering/docs.md`) for doc structure
+
+**Next up:**
+- Phase 4: build a form page (inputs + submit button), wire form submission to `/api/actions`
 
 ---
 
