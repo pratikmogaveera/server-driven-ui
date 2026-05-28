@@ -1,6 +1,6 @@
-import { PageSchema, type Page } from './schema.js';
 import cors from '@fastify/cors';
 import Fastify from 'fastify';
+import { PageSchema, type Page } from './schema.js';
 
 const envToLogger = {
   development: {
@@ -70,15 +70,21 @@ fastify.get('/about', function (request, reply) {
       type: 'container',
       children: [
         {
-          type: 'text',
-          content: 'Welcome to About page!',
-          className: 'font-bold',
-        },
-        {
-          type: 'input',
-          inputType: 'text',
-          name: 'test-input',
-          placeholder: 'This is input textfield',
+          type: 'card',
+          className: '',
+          children: [
+            {
+              type: 'text',
+              content: 'Welcome to About page!',
+              className: 'font-bold',
+            },
+            {
+              type: 'input',
+              inputType: 'text',
+              name: 'test-input',
+              placeholder: 'This is input textfield',
+            },
+          ],
         },
       ],
     },

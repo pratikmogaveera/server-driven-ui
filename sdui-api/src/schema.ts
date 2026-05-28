@@ -13,20 +13,13 @@ type Component =
   | { type: 'text'; content: string; className?: string }
   | { type: 'button'; label: string; action: z.infer<typeof ActionSchema>; className?: string }
   | { type: 'container'; className?: string; children: Component[] }
-  | { type: 'input'; inputType: string; name: string; placeholder?: string; className?: string };
+  | { type: 'input'; inputType: string; name: string; placeholder?: string; className?: string }
+  | { type: 'card'; children: Component[]; className?: string };
 
 const ContainerSchema = z.object({
   type: z.literal('container'),
   className: z.string().optional(),
   children: z.array(z.lazy(() => ComponentSchema)),
-});
-
-const InputSchema = z.object({
-  type: z.literal('input'),
-  inputType: z.enum(['text', 'password']),
-  name: z.string().nonempty(),
-  placeholder: z.string().optional(),
-  className: z.string().optional(),
 });
 
 const ComponentSchema: z.ZodType<Component> = z.discriminatedUnion('type', [
@@ -42,7 +35,18 @@ const ComponentSchema: z.ZodType<Component> = z.discriminatedUnion('type', [
     className: z.string().optional(),
   }),
   ContainerSchema,
-  InputSchema,
+  z.object({
+    type: z.literal('input'),
+    inputType: z.enum(['text', 'password']),
+    name: z.string().nonempty(),
+    placeholder: z.string().optional(),
+    className: z.string().optional(),
+  }),
+  z.object({
+    type: z.literal('card'),
+    className: z.string().optional(),
+    children: z.array(z.lazy(() => ComponentSchema)),
+  }),
 ]);
 
 const PageSchema = z.object({

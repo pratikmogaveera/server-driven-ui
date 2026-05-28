@@ -41,6 +41,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:3001/
 
 ## Changelog
 
+- **2026-05-28** — Added card component, refactored ComponentMapper into individual files, installed shadcn, async error handling in useActionResolver, fixed Turbopack memory issue.
 - **2026-05-28** — Added Prettier config, restructured README/PLAN roles, added steering rules for doc consistency.
 - **2026-05-27** — Migrated sdui-api to TypeScript. Added input component schema + basic rendering. Fixed redirect on `/`.
 - **2026-05-26** — Phase 3 complete. Dynamic routing, actions (navigate + api_call), recursive rendering all working. Starting Phase 4.

@@ -204,12 +204,12 @@ Create `POST /api/actions` that receives form data, validates it, and returns a 
 **Exercise:**
 
 - [x] Add `input` component (schema + basic rendering)
-- [ ] Add `card` component
+- [x] Add `card` component
 - [ ] Build a form page (Fastify returns inputs + submit button)
 - [ ] Submit form → hits `/api/actions` → returns success
 - [ ] Display success/error state
 - [ ] Handle `api_call` response in `useActionResolver` — show success/error, re-fetch page after mutation
-- [ ] Refactor `ComponentMapper` into individual component files (`components/sdui/components/TextComponent.tsx`, `ButtonComponent.tsx`, etc.)
+- [x] Refactor `ComponentMapper` into individual component files (`components/sdui/components/TextComponent.tsx`, `ButtonComponent.tsx`, etc.)
 
 ---
 
@@ -349,23 +349,28 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 - API migrated to TypeScript (`sdui-api/src/`)
 - API validates responses against `PageSchema` before sending (returns 500 on mismatch)
 - Response shape: `{ id, title, root: { type: 'container', children: [...] } }`
-- Components implemented: `text`, `button`, `container`, `input`
+- Components implemented: `text`, `button`, `container`, `input`, `card`
 - Actions implemented: `navigate`, `api_call` — both handled via `useActionResolver` hook
 - Dynamic routing via `app/[slug]/page.tsx` — any server-defined page is renderable
 - Root `/` uses `redirect('/home')` (fixed from `router.push`)
 - `axiosInstance` centralises base URL config
-- `ComponentMapper` renders recursively from server payload
+- `ComponentMapper` refactored — delegates to individual component files (`ButtonComponent`, `CardComponent`, `ContainerComponent`, `InputComponent`, `FallbackComponent`)
+- `useActionResolver` now async with error handling, returns response
+- Installed shadcn (zinc theme, dark mode), using `cn()` for base + server style merging
+- Added `outputFileTracingRoot` in `next.config.ts` to fix Turbopack memory explosion
+- Tailwind safelist in `lib/utils.ts` for server-sent classes not in source
 - Added Prettier config + `.prettierignore`, formatted all files
 - Added steering rules (`.kiro/steering/docs.md`) for doc structure
 
 **Next up:**
 - Phase 4: build a form page (inputs + submit button), wire form submission to `/api/actions`
+- Implement form state management (FormProvider/context pattern)
 
 ---
 
 ## Checkpoint: End of Week 4
 
-- [ ] Zod schema with 5+ component types + 2 action types
+- [x] Zod schema with 5+ component types + 2 action types
 - [x] ComponentMapper rendering all types recursively
 - [x] useActionResolver handling navigate + api_call
 - [ ] 3+ pages served from Fastify
