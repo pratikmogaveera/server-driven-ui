@@ -383,6 +383,9 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 
 ## What's Next (Level 4+)
 
+- Database-backed payloads (Postgres via Supabase) — replace hardcoded JSON with DB reads
+- Admin panel to edit page JSON on the fly — alter UI without redeploying
+- Deploy: frontend on Vercel, API on Railway/Render, DB on Supabase
 - Conditional rendering (show/hide based on state)
 - Feature flags from server
 - Multi-step forms with state machines
