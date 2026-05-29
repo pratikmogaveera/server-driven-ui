@@ -343,13 +343,13 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 
 ---
 
-## Session Checkpoint (2026-05-28)
+## Session Checkpoint (2026-05-29)
 
 - Zod schema defined in `sdui-web/lib/main.schema.ts` and `sdui-api/src/schema.ts`
 - API migrated to TypeScript (`sdui-api/src/`)
 - API validates responses against `PageSchema` before sending (returns 500 on mismatch)
 - Response shape: `{ id, title, root: { type: 'container', children: [...] } }`
-- Components implemented: `text`, `button`, `container`, `input`, `card`
+- Components implemented: `text`, `button`, `container`, `input`, `card`, `form`
 - Actions implemented: `navigate`, `api_call` — both handled via `useActionResolver` hook
 - Dynamic routing via `app/[slug]/page.tsx` — any server-defined page is renderable
 - Root `/` uses `redirect('/home')` (fixed from `router.push`)
@@ -361,10 +361,17 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 - Tailwind safelist in `lib/utils.ts` for server-sent classes not in source
 - Added Prettier config + `.prettierignore`, formatted all files
 - Added steering rules (`.kiro/steering/docs.md`) for doc structure
+- `FormComponent` with dynamic Zod schema generation from server-defined inputs
+- `InputComponent` connected to react-hook-form via `register` prop (optional — works standalone too)
+- `validationObject` added to input schema (`{ type: 'onChange' | 'onBlur', message }`)
+- Contact page endpoint added in Fastify (email + password inputs)
+- Installed `react-hook-form` + `@hookform/resolvers`
 
 **Next up:**
-- Phase 4: build a form page (inputs + submit button), wire form submission to `/api/actions`
-- Implement form state management (FormProvider/context pattern)
+- Add submit button to form (server sends button as form child — requires schema change)
+- Wire form submission to `POST /api/actions`
+- Handle `api_call` response — display success/error state
+- Fix `getFieldState` reactivity (use `form.formState.errors` instead)
 
 ---
 

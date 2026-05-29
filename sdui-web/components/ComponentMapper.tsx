@@ -5,6 +5,7 @@ import CardComponent from './CardComponent';
 import ContainerComponent from './ContainerComponent';
 import FallbackComponent from './FallbackComponent';
 import InputComponent from './InputComponent';
+import FormComponent from './FormComponent';
 
 const ComponentMapper = ({ data }: { data: Component }) => {
   if (data.type === 'container') return <ContainerComponent data={data} />;
@@ -16,6 +17,8 @@ const ComponentMapper = ({ data }: { data: Component }) => {
   if (data.type === 'input') return <InputComponent data={data} />;
 
   if (data.type === 'card') return <CardComponent data={data} />;
+
+  if (data.type === 'form') return <FormComponent data={data} />;
 
   return <FallbackComponent />;
 };
