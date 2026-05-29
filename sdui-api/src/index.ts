@@ -144,6 +144,18 @@ fastify.get('/contact', function (request, reply) {
                   },
                 },
               ],
+              submit: {
+                endpoint: '/contact-submit',
+                method: 'post',
+                trigger: {
+                  type: 'button',
+                  label: 'Submit',
+                  buttonType: 'submit',
+                  action: {
+                    type: 'submit',
+                  },
+                },
+              },
             },
           ],
         },
@@ -159,6 +171,12 @@ fastify.get('/contact', function (request, reply) {
   }
 
   reply.send(result.data);
+});
+
+fastify.post('/contact-submit', function (request, reply) {
+  console.log(request.body);
+
+  reply.send({ message: 'Data received successfully.' });
 });
 
 fastify.listen({ port: 3001 }, function (err, address) {

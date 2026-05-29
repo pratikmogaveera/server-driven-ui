@@ -41,6 +41,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:3001/
 
 ## Changelog
 
+- **2026-05-30** — Polished FormComponent: submit button via server trigger, buttonType prop, error handling with toast, restricted actionResolver for submit actions.
 - **2026-05-29** — Added FormComponent with dynamic Zod validation, react-hook-form integration, contact page endpoint.
 - **2026-05-28** — Added card component, refactored ComponentMapper into individual files, installed shadcn, async error handling in useActionResolver, fixed Turbopack memory issue.
 - **2026-05-28** — Added Prettier config, restructured README/PLAN roles, added steering rules for doc consistency.

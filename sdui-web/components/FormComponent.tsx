@@ -1,8 +1,11 @@
+import axiosInstance from '@/lib/axiosInstance';
 import { Component } from '@/lib/main.schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import ComponentMapper from './ComponentMapper';
 import InputComponent from './InputComponent';
+import { gooeyToast } from 'goey-toast';
 
 function getValidation(type: string, message: string) {
   switch (type) {
@@ -32,23 +35,30 @@ const FormComponent = ({ data }: { data: Extract<Component, { type: 'form' }> })
     mode: 'onBlur',
   });
 
-  const onSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+  const onSubmit = async (formData: z.infer<typeof formSchema>) => {
+    try {
+      const res = await axiosInstance.request({
+        method: data.submit.method,
+        url: data.submit.endpoint,
+        data: formData,
+      });
+
+      gooeyToast.success(res.data?.message || 'Successfully submitted form!');
+    } catch (error) {
+      gooeyToast.error('Something went wrong while submitting form.');
+    }
   };
 
-  console.log(formSchema);
-
   return (
-    <div>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={data.className}>
-        {data.children.map((item, i) => (
-          <div key={i}>
-            <InputComponent data={item} validator={form.register(item.name)} />
-            <p className="text-xs text-red-400">{form.formState.errors[item.name]?.message}</p>
-          </div>
-        ))}
-      </form>
-    </div>
+    <form onSubmit={form.handleSubmit(onSubmit)} className={data.className}>
+      {data.children.map((item, i) => (
+        <div key={i}>
+          <InputComponent data={item} validator={form.register(item.name)} />
+          <p className="text-xs text-red-400">{form.formState.errors[item.name]?.message}</p>
+        </div>
+      ))}
+      {<ComponentMapper data={data.submit.trigger} />}
+    </form>
   );
 };
 

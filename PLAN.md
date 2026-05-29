@@ -205,9 +205,9 @@ Create `POST /api/actions` that receives form data, validates it, and returns a 
 
 - [x] Add `input` component (schema + basic rendering)
 - [x] Add `card` component
-- [ ] Build a form page (Fastify returns inputs + submit button)
-- [ ] Submit form → hits `/api/actions` → returns success
-- [ ] Display success/error state
+- [x] Build a form page (Fastify returns inputs + submit button)
+- [x] Submit form → hits `/api/actions` → returns success
+- [x] Display success/error state
 - [ ] Handle `api_call` response in `useActionResolver` — show success/error, re-fetch page after mutation
 - [x] Refactor `ComponentMapper` into individual component files (`components/sdui/components/TextComponent.tsx`, `ButtonComponent.tsx`, etc.)
 
@@ -250,7 +250,7 @@ Show a skeleton or spinner while fetching. Server could even define its own load
 **Exercise:**
 
 - [x] Dynamic route rendering any page from server
-- [ ] 3 pages working end-to-end
+- [x] 3 pages working end-to-end (home, about, contact)
 - [ ] Error boundary + fallback for each failure mode (Fastify down, invalid payload, network timeout)
 - [ ] Loading skeleton instead of plain "Loading..." text
 - [ ] Zod parse errors surfaced with detail in error state (not swallowed into generic message)
@@ -343,18 +343,18 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 
 ---
 
-## Session Checkpoint (2026-05-29)
+## Session Checkpoint (2026-05-30)
 
 - Zod schema defined in `sdui-web/lib/main.schema.ts` and `sdui-api/src/schema.ts`
 - API migrated to TypeScript (`sdui-api/src/`)
 - API validates responses against `PageSchema` before sending (returns 500 on mismatch)
 - Response shape: `{ id, title, root: { type: 'container', children: [...] } }`
 - Components implemented: `text`, `button`, `container`, `input`, `card`, `form`
-- Actions implemented: `navigate`, `api_call` — both handled via `useActionResolver` hook
+- Actions implemented: `navigate`, `api_call`, `submit`
 - Dynamic routing via `app/[slug]/page.tsx` — any server-defined page is renderable
 - Root `/` uses `redirect('/home')` (fixed from `router.push`)
 - `axiosInstance` centralises base URL config
-- `ComponentMapper` refactored — delegates to individual component files (`ButtonComponent`, `CardComponent`, `ContainerComponent`, `InputComponent`, `FallbackComponent`)
+- `ComponentMapper` refactored — delegates to individual component files (`ButtonComponent`, `CardComponent`, `ContainerComponent`, `InputComponent`, `FallbackComponent`, `FormComponent`)
 - `useActionResolver` now async with error handling, returns response
 - Installed shadcn (zinc theme, dark mode), using `cn()` for base + server style merging
 - Added `outputFileTracingRoot` in `next.config.ts` to fix Turbopack memory explosion
@@ -364,14 +364,29 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 - `FormComponent` with dynamic Zod schema generation from server-defined inputs
 - `InputComponent` connected to react-hook-form via `register` prop (optional — works standalone too)
 - `validationObject` added to input schema (`{ type: 'onChange' | 'onBlur', message }`)
-- Contact page endpoint added in Fastify (email + password inputs)
-- Installed `react-hook-form` + `@hookform/resolvers`
+- Form `submit` prop: `{ endpoint, method, trigger }` — server defines submit button + API target
+- `ButtonComponent` passes `type={data.buttonType || 'button'}`, skips resolver for `submit` actions
+- Form submission with toast feedback (goey-toast) for success/error
+- 3 pages served: home, about, contact
+- Contact page: form with email + password inputs, submits to `/contact-submit`
 
 **Next up:**
-- Add submit button to form (server sends button as form child — requires schema change)
-- Wire form submission to `POST /api/actions`
-- Handle `api_call` response — display success/error state
-- Fix `getFieldState` reactivity (use `form.formState.errors` instead)
+- Handle `api_call` response in `useActionResolver` — add toast feedback
+- Error boundary + fallback UI (Fastify down, invalid payload, network timeout)
+- Loading skeleton instead of plain "Loading..." text
+- Zod parse errors surfaced with detail in error state
+- Pass `resolver` as prop through `ComponentMapper` instead of calling hook on every instance
+- Build dashboard page
+- Refactor Fastify structure:
+  - Extract page payloads into `src/data/pages/home.ts`, `about.ts`, `contact.ts` (each exports typed `Page` object)
+  - Create `src/routes/pages.ts` — single dynamic `GET /:pageId` handler that imports page by ID, validates with `PageSchema`, responds
+  - Create `src/routes/actions.ts` — move `/contact-submit` and future action endpoints here
+  - Slim `src/index.ts` to server setup + cors + route registration only
+- Standardize API response envelope:
+  - Success: `{ success: true, data: <Page | ActionResponse> }`
+  - Error: `{ success: false, error: { message: string, details?: ZodIssue[] } }`
+  - All endpoints use this shape consistently
+- Add axios response interceptor on frontend to unwrap envelope (access `res.data.data` automatically so components receive clean data)
 
 ---
 
@@ -380,7 +395,7 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 - [x] Zod schema with 5+ component types + 2 action types
 - [x] ComponentMapper rendering all types recursively
 - [x] useActionResolver handling navigate + api_call
-- [ ] 3+ pages served from Fastify
+- [x] 3+ pages served from Fastify
 - [ ] Form submission working end-to-end
 - [ ] Error handling for all failure modes
 - [x] Dynamic routing (`/[pageId]`)

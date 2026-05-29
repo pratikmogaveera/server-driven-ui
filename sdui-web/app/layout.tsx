@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Inter, Montserrat } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
+import { GooeyToaster } from '@/components/ui/goey-toaster';
 
 const montserratHeading = Montserrat({ subsets: ['latin'], variable: '--font-heading' });
 
@@ -41,7 +42,10 @@ export default function RootLayout({
         'dark'
       )}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <GooeyToaster />
+        {children}
+      </body>
     </html>
   );
 }
