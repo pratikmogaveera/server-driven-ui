@@ -1,8 +1,10 @@
 'use client';
 import ComponentMapper from '@/components/ComponentMapper';
+import FallbackPage from '@/components/FallbackPage';
+import { Skeleton } from '@/components/ui/skeleton';
 import axiosInstance from '@/lib/axiosInstance';
 import { Page, PageSchema } from '@/lib/main.schema';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const MainPageComponent = ({ slug }: { slug: string }) => {
   const [pageData, setPageData] = useState<Page | null>(null);
@@ -21,16 +23,27 @@ const MainPageComponent = ({ slug }: { slug: string }) => {
     fetchPage();
   }, [slug]);
 
-  if (error) return <p className="p-6 text-red-500">{error}</p>;
-  if (!pageData) return <p className="p-6">Loading...</p>;
+  if (error) return <FallbackPage />;
 
   return (
     <>
-      <header className="px-6 py-4 border-b border-zinc-200 dark:border-zinc-800">
-        <h1 className="text-lg font-bold">{pageData.title}</h1>
+      <header className="border-b border-zinc-200 px-6 py-4 dark:border-zinc-800">
+        {pageData ? (
+          <h1 className="text-3xl font-bold">{pageData.title}</h1>
+        ) : (
+          <Skeleton className="h-9 w-30" />
+        )}
       </header>
       <main className="flex-1 p-6">
-        <ComponentMapper data={pageData.root} />
+        {pageData ? (
+          <ComponentMapper data={pageData.root} />
+        ) : (
+          <div className="flex flex-col gap-4">
+            {[1, 2, 3].map((item) => (
+              <Skeleton className="h-8 w-1/2" key={item} />
+            ))}
+          </div>
+        )}
       </main>
     </>
   );

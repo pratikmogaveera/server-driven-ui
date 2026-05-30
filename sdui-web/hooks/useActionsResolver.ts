@@ -1,5 +1,6 @@
 import axiosInstance from '@/lib/axiosInstance';
 import { Action } from '@/lib/main.schema';
+import { gooeyToast } from 'goey-toast';
 import { useRouter } from 'next/navigation';
 
 function useActionResolver() {
@@ -12,12 +13,19 @@ function useActionResolver() {
           method: action.method,
         });
 
+        gooeyToast.success(res.data.message);
+
+        setTimeout(() => router.refresh(), 2000);
+
         return res;
       } catch (error) {
         const errorMessage =
           error instanceof Error
             ? error.message
             : `Something went wrong while requesting ${action.endpoint}`;
+
+        gooeyToast.error(errorMessage);
+
         return {
           status: 500,
           message: errorMessage,

@@ -11,8 +11,15 @@ Fastify, TypeScript, Zod, pino-pretty (logging)
 ```
 sdui-api/
 ├── src/
-│   ├── index.ts    # Server setup, routes, page payloads
-│   └── schema.ts   # Zod schemas (shared types with frontend)
+│   ├── index.ts        # Server setup, cors, route registration
+│   ├── config.ts       # Logger config, page mapper
+│   ├── schema.ts       # Zod schemas (shared types with frontend)
+│   ├── pages/
+│   │   ├── home.ts     # Home page payload handler
+│   │   ├── about.ts    # About page payload handler
+│   │   └── contact.ts  # Contact page payload handler
+│   └── routes/
+│       └── action.ts   # Action endpoints (contact-submit)
 └── tsconfig.json
 ```
 
@@ -29,5 +36,5 @@ Runs on http://localhost:3001
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
-| `/home` | GET | Home page payload |
-| `/about` | GET | About page payload (card + input) |
+| `/:pageId` | GET | Dynamic page payload (home, about, contact) |
+| `/contact-submit` | POST | Contact form submission |
