@@ -1,9 +1,7 @@
 import cors from '@fastify/cors';
-import Fastify from 'fastify';
+import Fastify, { type FastifyError } from 'fastify';
 import { envToLogger } from './config.js';
-import { AboutPage } from './pages/about.js';
-import { ContactPage } from './pages/contact.js';
-import { HomePage } from './pages/home.js';
+import pages from './pages/index.js';
 import { contactSubmit } from './routes/action.js';
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -16,7 +14,7 @@ fastify.register(cors, {
   origin: ['http://localhost:3000'],
 });
 
-fastify.setErrorHandler((error: Error, request, reply) => {
+fastify.setErrorHandler((error: FastifyError, request, reply) => {
   const statusCode: number = error?.statusCode || 500;
 
   reply.status(statusCode).send({
@@ -31,22 +29,9 @@ fastify.get('/', function (request, reply) {
   reply.send({ hello: 'world' });
 });
 
-fastify.get('/:pageId', function (request, reply) {
+fastify.get<{ Params: { pageId: string } }>('/:pageId', function (request, reply) {
   const { pageId } = request.params;
-
-  switch (pageId) {
-    case 'home':
-      HomePage(request, reply);
-      break;
-    case 'about':
-      AboutPage(request, reply);
-      break;
-    case 'contact':
-      ContactPage(request, reply);
-      break;
-    default:
-      return reply.status(404).send({ error: 'This page doesnt exist' });
-  }
+  pages(pageId, request, reply);
 });
 
 fastify.post('/contact-submit', contactSubmit);

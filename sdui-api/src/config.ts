@@ -1,7 +1,3 @@
-import { AboutPage } from './pages/about.js';
-import { ContactPage } from './pages/contact.js';
-import { HomePage } from './pages/home.js';
-
 export const envToLogger = {
   development: {
     transport: {
@@ -14,10 +10,4 @@ export const envToLogger = {
   },
   production: true,
   test: false,
-};
-
-export const pageMapper = {
-  contact: ContactPage,
-  about: AboutPage,
-  home: HomePage,
 };
