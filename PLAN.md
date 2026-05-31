@@ -251,9 +251,9 @@ Show a skeleton or spinner while fetching. Server could even define its own load
 
 - [x] Dynamic route rendering any page from server
 - [x] 3 pages working end-to-end (home, about, contact)
-- [ ] Error boundary + fallback for each failure mode (Fastify down, invalid payload, network timeout)
+- [x] Error boundary + fallback for each failure mode (Fastify down, invalid payload, network timeout)
 - [x] Loading skeleton instead of plain "Loading..." text
-- [ ] Zod parse errors surfaced with detail in error state (not swallowed into generic message)
+- [x] Zod parse errors surfaced with detail in error state (not swallowed into generic message)
 - [x] Pass `resolver` as prop through `ComponentMapper` instead of calling hook on every recursive instance
 
 ---
@@ -375,11 +375,6 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 - Fastify refactor started: page payloads in `src/pages/`, `contactSubmit` in `src/routes/action.ts`, `pageMapper` in `src/config.ts`
 
 **Next up:**
-- Finish Fastify refactor:
-  - Use `pageMapper` in a dynamic `GET /:pageId` handler (replace switch/case in `index.ts`)
-  - Slim `src/index.ts` to server setup + cors + route registration only
-- Error boundary + fallback for each failure mode (Fastify down, invalid payload, network timeout)
-- Zod parse errors surfaced with detail in error state (not swallowed into generic message)
 - Standardize API response envelope:
   - Success: `{ success: true, data: <Page | ActionResponse> }`
   - Error: `{ success: false, error: { message: string, details?: ZodIssue[] } }`
@@ -395,7 +390,7 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 - [x] useActionResolver handling navigate + api_call
 - [x] 3+ pages served from Fastify
 - [ ] Form submission working end-to-end
-- [ ] Error handling for all failure modes
+- [x] Error handling for all failure modes
 - [x] Dynamic routing (`/[pageId]`)
 - [ ] Can change UI by only editing Fastify — no frontend deploys needed
 
