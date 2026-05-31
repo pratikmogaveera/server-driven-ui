@@ -41,6 +41,7 @@ NEXT_PUBLIC_API_BASE_URL=http://localhost:3001/
 
 ## Changelog
 
+- **2026-05-31** — Moved action resolver to React Context; ComponentMapper no longer calls hook per instance.
 - **2026-05-30** — Added loading skeleton, fallback page, api_call toast feedback + re-fetch, started Fastify refactor (pages/routes extraction) and resolver-as-prop refactor.
 - **2026-05-30** — Polished FormComponent: submit button via server trigger, buttonType prop, error handling with toast, restricted actionResolver for submit actions.
 - **2026-05-29** — Added FormComponent with dynamic Zod validation, react-hook-form integration, contact page endpoint.

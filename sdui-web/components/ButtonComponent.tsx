@@ -1,13 +1,9 @@
-import { Action, Component } from '@/lib/main.schema';
+import { useActionResolverConsumer } from '@/hooks/ActionResolverContext';
+import { Component } from '@/lib/main.schema';
 import { Button } from './ui/button';
 
-const ButtonComponent = ({
-  data,
-  resolver,
-}: {
-  data: Extract<Component, { type: 'button' }>;
-  resolver: (action: Action) => void;
-}) => {
+const ButtonComponent = ({ data }: { data: Extract<Component, { type: 'button' }> }) => {
+  const { resolver } = useActionResolverConsumer();
   return (
     <Button
       className={data.className}

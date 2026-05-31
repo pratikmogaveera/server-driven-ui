@@ -254,7 +254,7 @@ Show a skeleton or spinner while fetching. Server could even define its own load
 - [ ] Error boundary + fallback for each failure mode (Fastify down, invalid payload, network timeout)
 - [x] Loading skeleton instead of plain "Loading..." text
 - [ ] Zod parse errors surfaced with detail in error state (not swallowed into generic message)
-- [ ] Pass `resolver` as prop through `ComponentMapper` instead of calling hook on every recursive instance
+- [x] Pass `resolver` as prop through `ComponentMapper` instead of calling hook on every recursive instance
 
 ---
 
@@ -343,7 +343,7 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 
 ---
 
-## Session Checkpoint (2026-05-30, evening)
+## Session Checkpoint (2026-05-31, morning)
 
 - Zod schema defined in `sdui-web/lib/main.schema.ts` and `sdui-api/src/schema.ts`
 - API migrated to TypeScript (`sdui-api/src/`)
@@ -356,6 +356,7 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 - `axiosInstance` centralises base URL config
 - `ComponentMapper` refactored — delegates to individual component files (`ButtonComponent`, `CardComponent`, `ContainerComponent`, `InputComponent`, `FallbackComponent`, `FormComponent`)
 - `useActionResolver` now async with error handling, toast feedback (goey-toast), `router.refresh()` after success
+- **Action resolver provided via React Context** — hook called once in `MainPageComponent`, consumed in `ButtonComponent` via `useActionResolverConsumer()`. `ComponentMapper` is now action-agnostic.
 - Installed shadcn (zinc theme, dark mode), using `cn()` for base + server style merging
 - Added `outputFileTracingRoot` in `next.config.ts` to fix Turbopack memory explosion
 - Tailwind safelist in `lib/utils.ts` for server-sent classes not in source
@@ -365,7 +366,7 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 - `InputComponent` connected to react-hook-form via `register` prop (optional — works standalone too)
 - `validationObject` added to input schema (`{ type: 'onChange' | 'onBlur', message }`)
 - Form `submit` prop: `{ endpoint, method, trigger }` — server defines submit button + API target
-- `ButtonComponent` passes `type={data.buttonType || 'button'}`, skips resolver for `submit` actions, accepts `resolver` as prop
+- `ButtonComponent` passes `type={data.buttonType || 'button'}`, skips resolver for `submit` actions
 - Form submission with toast feedback (goey-toast) for success/error
 - 3 pages served: home, about, contact
 - Contact page: form with email + password inputs, submits to `/contact-submit`
@@ -374,7 +375,6 @@ Server sends Tailwind class strings in `className`. Component applies them direc
 - Fastify refactor started: page payloads in `src/pages/`, `contactSubmit` in `src/routes/action.ts`, `pageMapper` in `src/config.ts`
 
 **Next up:**
-- Move `useActionResolver` to React Context (call hook once at top, provide via context, consume in `ButtonComponent`) — current approach still calls hook per `ComponentMapper` instance
 - Finish Fastify refactor:
   - Use `pageMapper` in a dynamic `GET /:pageId` handler (replace switch/case in `index.ts`)
   - Slim `src/index.ts` to server setup + cors + route registration only
